@@ -1,12 +1,12 @@
 import mongoose, {isValidObjectId} from "mongoose"
-import {Like} from "../models/like.model.js"
+import {Like} from "../models/like.models.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 
 const toggleVideoLike = asyncHandler(async (req, res) => {
     const {videoId} = req.params
-   
+  
     //check if videoID is valid
     //check if video is liked
     // if liked unlike
@@ -22,14 +22,16 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
     //check if videoID is valid
     const existingLike = await Like.findOne(
         {
-            video: videoId,
-            likedBy: req.user?._id
+            video: new mongoose.Types.ObjectId(videoId),
+            likedBy: new mongoose.Types.ObjectId(req.user?._id)
         }
     )
 
+    console.log("Existing Like Found:", existingLike);
+
     // if liked unlike
     if (existingLike) {
-        findByIdAndDelete(existingLike._id)
+        await Like.findByIdAndDelete(existingLike._id)
     }
 
     //send response 
@@ -155,8 +157,8 @@ const getLikedVideos = asyncHandler(async (req, res) => {
         {
             $lookup: {
                 from: "videos",
-                LocalField: "video",
-                ForeignField: "_id",
+                localField: "video",
+                foreignField: "_id",
                 as: "likedVideos"
             }
         },

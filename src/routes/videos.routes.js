@@ -8,13 +8,26 @@ import {
     togglePublishStatus
 } from "../controllers/videos.controller.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import {upload} from "../middlewares/multer.middleware.js"
 
 const router = Router()
 
 router.use(verifyJWT)
 
-router.route("/").post(publishAVideo).get(getAllVideos)
-router.route("/:videoId").get(getVideoById).patch(updateVideo).delete(deleteVideo)
+router.route("/").post(
+    upload.fields([
+        { name: "videoFile", maxCount: 1 },
+        { name: "thumbnail", maxCount: 1 }
+    ]), 
+    publishAVideo
+).get(getAllVideos)
+router.route("/:videoId")
+    .get(getVideoById)
+    .patch(
+        upload.single("thumbnail"), 
+        updateVideo
+    )
+    .delete(deleteVideo)
 router.route("/toggle/publish/:videoId").patch(togglePublishStatus)
 
 export default router

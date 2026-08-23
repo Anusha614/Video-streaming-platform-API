@@ -39,7 +39,7 @@ app.use("/api/v1/playlists", playlistsRouter)
 app.use("/api/v1/subscriptions", subscriptionRouter)
 app.use("/api/v1/tweets", tweetsRouter)
 app.use("/api/v1/videos", videosRouter)
-app.use("./api/v1/healthcheck", healthcheckRouter)
+app.use("/api/v1/healthcheck", healthcheckRouter)
 
 
 

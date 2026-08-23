@@ -13,10 +13,10 @@ const getVideoComments = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid video ID")
     }
 
-    const comments = await Comment.aggregate([
+    const aggregateQuery = Comment.aggregate([
         {
             $match: {
-                video: mongoose.Types.ObjectId(videoId)
+                video:new mongoose.Types.ObjectId(videoId)
             }
         },
         {
@@ -57,7 +57,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
         limit: parseInt(limit, 10)
     };
 
-    comments = await Comment.aggregatePaginate(aggregateQuery, options);
+    const comments = await Comment.aggregatePaginate(aggregateQuery, options);
 
     return res
         .status(200)
@@ -118,7 +118,7 @@ const updateComment = asyncHandler(async (req, res) => {
         throw new ApiError(403, "you are unauthorized to update this comment")
     }
 
-    const updatedComment = await comment.findByIdAndUpdate(
+    const updatedComment = await Comment.findByIdAndUpdate(
         commentId,
         {
             $set: {
