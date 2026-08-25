@@ -320,10 +320,6 @@ CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
-Never commit your `.env` file or real credentials to the repository.
-
-For other developers, you can provide a `.env.example` file containing only placeholder values.
-
 ### Run Locally
 
 Start the development server:
