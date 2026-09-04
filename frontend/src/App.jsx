@@ -1,8 +1,15 @@
 import React from "react"
+import Header from "./layouts/Header"
+import Footer from "./layouts/footer"
+import { Outlet } from "react-router-dom"
 
 function App () {
     return (
-        <h1>This is video sharing platform</h1>
+        <>
+            <Header/>
+            <Outlet/>
+            <Footer/>
+        </>
     )
 }
 
